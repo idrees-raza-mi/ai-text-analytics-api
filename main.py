@@ -210,10 +210,10 @@ if __name__ == "__main__":
     
     # Handle PORT environment variable properly
     try:
-        port = int(os.getenv("PORT", "8000"))
+        port = int(os.getenv("PORT", "8001"))
     except (ValueError, TypeError):
-        print(f"Warning: Invalid PORT value '{os.getenv('PORT')}', using default 8000")
-        port = 8000
+        print(f"Warning: Invalid PORT value '{os.getenv('PORT')}', using default 8001")
+        port = 8001
     
     print(f"Starting server on host 0.0.0.0 port {port}")
     
