@@ -207,7 +207,16 @@ async def debug_info():
 
 if __name__ == "__main__":
     import os
-    port = int(os.getenv("PORT", 8000))
+    
+    # Handle PORT environment variable properly
+    try:
+        port = int(os.getenv("PORT", "8000"))
+    except (ValueError, TypeError):
+        print(f"Warning: Invalid PORT value '{os.getenv('PORT')}', using default 8000")
+        port = 8000
+    
+    print(f"Starting server on host 0.0.0.0 port {port}")
+    
     uvicorn.run(
         "main:app",
         host="0.0.0.0",
