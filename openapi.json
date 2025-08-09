@@ -1,0 +1,483 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "AI Text Analytics API",
+    "description": "Comprehensive AI-powered text analysis and content generation API with sentiment analysis, language detection, keyword extraction, content generation, AI detection, and more.",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://your-railway-url.railway.app",
+      "description": "Production server"
+    }
+  ],
+  "security": [
+    {
+      "ApiKeyAuth": []
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "ApiKeyAuth": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "X-API-Key"
+      }
+    }
+  },
+  "paths": {
+    "/": {
+      "get": {
+        "summary": "Root endpoint",
+        "description": "Get API information and available endpoints",
+        "responses": {
+          "200": {
+            "description": "API information",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {"type": "string"},
+                    "version": {"type": "string"},
+                    "endpoints": {"type": "array", "items": {"type": "string"}}
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/health": {
+      "get": {
+        "summary": "Health check",
+        "description": "Check API health status",
+        "responses": {
+          "200": {
+            "description": "Health status",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {"type": "string"},
+                    "message": {"type": "string"}
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/analyze-sentiment": {
+      "post": {
+        "summary": "Analyze text sentiment",
+        "description": "Analyze the emotional tone of text (positive, negative, neutral)",
+        "security": [{"ApiKeyAuth": []}],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "text": {
+                    "type": "string",
+                    "description": "Text to analyze",
+                    "example": "I love this amazing product! It works perfectly."
+                  }
+                },
+                "required": ["text"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Sentiment analysis result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "sentiment": {"type": "string", "example": "positive"},
+                    "confidence": {"type": "number", "example": 0.85},
+                    "scores": {
+                      "type": "object",
+                      "properties": {
+                        "positive": {"type": "number"},
+                        "negative": {"type": "number"},
+                        "neutral": {"type": "number"}
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/detect-language": {
+      "post": {
+        "summary": "Detect text language",
+        "description": "Identify the language of input text with confidence score",
+        "security": [{"ApiKeyAuth": []}],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "text": {
+                    "type": "string",
+                    "description": "Text to analyze",
+                    "example": "Bonjour, comment allez-vous?"
+                  }
+                },
+                "required": ["text"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Language detection result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "language": {"type": "string", "example": "fr"},
+                    "language_name": {"type": "string", "example": "French"},
+                    "confidence": {"type": "number", "example": 0.95}
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/extract-keywords": {
+      "post": {
+        "summary": "Extract keywords",
+        "description": "Extract important keywords and phrases from text using AI",
+        "security": [{"ApiKeyAuth": []}],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "text": {
+                    "type": "string",
+                    "description": "Text to extract keywords from",
+                    "example": "Artificial intelligence and machine learning are revolutionizing technology"
+                  },
+                  "max_keywords": {
+                    "type": "integer",
+                    "description": "Maximum number of keywords to extract",
+                    "default": 10,
+                    "minimum": 1,
+                    "maximum": 50
+                  }
+                },
+                "required": ["text"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Keywords extraction result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "keywords": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "word": {"type": "string"},
+                          "score": {"type": "number"}
+                        }
+                      }
+                    },
+                    "total_keywords": {"type": "integer"}
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/summarize-text": {
+      "post": {
+        "summary": "Summarize text",
+        "description": "Generate a concise summary of longer text content",
+        "security": [{"ApiKeyAuth": []}],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "text": {
+                    "type": "string",
+                    "description": "Text to summarize",
+                    "example": "Long article or document text here..."
+                  },
+                  "max_length": {
+                    "type": "integer",
+                    "description": "Maximum summary length",
+                    "default": 150,
+                    "minimum": 50,
+                    "maximum": 500
+                  },
+                  "min_length": {
+                    "type": "integer",
+                    "description": "Minimum summary length",
+                    "default": 30,
+                    "minimum": 10,
+                    "maximum": 200
+                  }
+                },
+                "required": ["text"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Text summarization result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "summary": {"type": "string"},
+                    "original_length": {"type": "integer"},
+                    "summary_length": {"type": "integer"},
+                    "compression_ratio": {"type": "number"}
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/generate-content": {
+      "post": {
+        "summary": "Generate content",
+        "description": "Generate various types of content (blog posts, emails, ads, etc.) based on prompts",
+        "security": [{"ApiKeyAuth": []}],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "prompt": {
+                    "type": "string",
+                    "description": "Content generation prompt",
+                    "example": "benefits of exercise"
+                  },
+                  "content_type": {
+                    "type": "string",
+                    "enum": ["blog_post", "email", "social_media", "product_description", "article", "ad_copy"],
+                    "description": "Type of content to generate",
+                    "example": "blog_post"
+                  },
+                  "max_length": {
+                    "type": "integer",
+                    "description": "Maximum content length",
+                    "default": 300,
+                    "minimum": 50,
+                    "maximum": 2000
+                  },
+                  "tone": {
+                    "type": "string",
+                    "enum": ["professional", "casual", "friendly", "formal", "persuasive", "creative"],
+                    "description": "Tone of the generated content",
+                    "default": "professional"
+                  }
+                },
+                "required": ["prompt", "content_type"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Generated content",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "content": {"type": "string"},
+                    "content_type": {"type": "string"},
+                    "word_count": {"type": "integer"},
+                    "tone": {"type": "string"}
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/detect-ai-content": {
+      "post": {
+        "summary": "Detect AI-generated content",
+        "description": "Analyze if text was generated by AI (ChatGPT, etc.) or written by humans",
+        "security": [{"ApiKeyAuth": []}],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "text": {
+                    "type": "string",
+                    "description": "Text to analyze for AI detection",
+                    "example": "Furthermore, it is important to note that artificial intelligence represents a paradigm shift"
+                  }
+                },
+                "required": ["text"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "AI detection result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "is_ai_generated": {"type": "boolean"},
+                    "confidence": {"type": "number"},
+                    "ai_probability": {"type": "number"},
+                    "human_probability": {"type": "number"}
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/analyze-readability": {
+      "post": {
+        "summary": "Analyze text readability",
+        "description": "Analyze text complexity and readability using multiple metrics",
+        "security": [{"ApiKeyAuth": []}],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "text": {
+                    "type": "string",
+                    "description": "Text to analyze for readability",
+                    "example": "This is a sample text to analyze readability metrics."
+                  }
+                },
+                "required": ["text"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Readability analysis result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "flesch_kincaid_grade": {"type": "number"},
+                    "flesch_reading_ease": {"type": "number"},
+                    "gunning_fog_index": {"type": "number"},
+                    "readability_level": {"type": "string"},
+                    "average_sentence_length": {"type": "number"},
+                    "syllable_count": {"type": "integer"}
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/generate-meta-description": {
+      "post": {
+        "summary": "Generate SEO meta description",
+        "description": "Generate optimized meta descriptions for SEO purposes",
+        "security": [{"ApiKeyAuth": []}],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "content": {
+                    "type": "string",
+                    "description": "Content to generate meta description for",
+                    "example": "Article about artificial intelligence and its applications"
+                  },
+                  "max_length": {
+                    "type": "integer",
+                    "description": "Maximum meta description length",
+                    "default": 160,
+                    "minimum": 120,
+                    "maximum": 200
+                  }
+                },
+                "required": ["content"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Generated meta description",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "meta_description": {"type": "string"},
+                    "length": {"type": "integer"},
+                    "seo_score": {"type": "number"},
+                    "suggestions": {
+                      "type": "array",
+                      "items": {"type": "string"}
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

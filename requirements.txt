@@ -1,0 +1,10 @@
+fastapi
+uvicorn
+pydantic
+python-multipart
+requests
+python-dotenv
+textblob
+langdetect
+numpy
+scikit-learn

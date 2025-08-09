@@ -1,0 +1,44 @@
+===============================
+AI TEXT ANALYTICS API - DEPENDENCIES
+===============================
+
+🔧 REQUIRED PYTHON PACKAGES:
+
+Core Web Framework:
+- fastapi
+- uvicorn 
+- pydantic
+- python-multipart
+
+Data Processing:
+- requests
+- python-dotenv
+- numpy
+- scikit-learn
+
+AI/NLP Libraries:
+- textblob
+- langdetect
+
+📥 ONE-COMMAND INSTALLATION:
+
+Copy and paste this command:
+
+pip install fastapi uvicorn pydantic python-multipart requests python-dotenv textblob langdetect numpy scikit-learn
+
+📋 ADDITIONAL SETUP (After pip install):
+
+Download required language data:
+python -c "import nltk; nltk.download('punkt'); nltk.download('brown')"
+
+🔐 API KEY:
+SecureAI2024_TextAnalytics_789xyz
+
+🚀 START COMMAND:
+uvicorn main:app --host 0.0.0.0 --port 8000
+
+✅ VERIFICATION:
+Visit: http://localhost:8000/health
+Should return: {"status": "healthy", "message": "API is running"}
+
+===============================
